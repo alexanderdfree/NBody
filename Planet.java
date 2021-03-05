@@ -119,7 +119,7 @@ public class Planet{
       p2.gravityMag(p1) -> 5.339264E-12
       */
       double gmm = this.G * this.mass * that.mass;
-      double d2 = this.distance(that);
+      double d2 = Math.pow(this.distance(that), 2);
       return gmm/d2;
    }
    public Vector2D gravityVec(Planet that){
@@ -137,6 +137,8 @@ public class Planet{
       p1.gravityVec(p2) -> (-4.2714112E-12, 3.2035584E-12)
       p2.gravityVec(p1) -> (4.2714112E-12, -3.2035584E-12)
       */
+      return new Vector2D()
+      
   }
   public Vector2D netForce(Planet[] those){
       /*Calculate the net force acting on this Planet from those
