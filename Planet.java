@@ -138,11 +138,11 @@ public class Planet{
       p2.gravityVec(p1) -> (4.2714112E-12, -3.2035584E-12)
       */
       //this.gravityMag(that);
-      new Vector2D() vec = this.displacement(that);
-      new Vector2D() vecUnit = vec.unit();
-      double x = vecUnit.x * this.gravityMag(that);
-      double y = vecUnit.y * this.gravityMag(that); 
-      return new Vector2D(this.displacement(that).x)
+      Vector2D vec = new Vector2D(this.displacement(that).x, this.displacement(that).y);
+      Vector2D vecUnit = vec.unit();
+      double vecX = vecUnit.x * this.gravityMag(that);
+      double vecY = vecUnit.y * this.gravityMag(that); 
+      return new Vector2D(vecX, vecY);
       
   }
   public Vector2D netForce(Planet[] those){
@@ -165,7 +165,16 @@ public class Planet{
       p1.gravityVec(p3) -> (-6.33158822E-12, 1.89947646E-11)
       p1.netForce(those) ->(-1.23010668E-11, 2.19795039E-11)
       */
-      
+      double xCounter = 0;
+      double yCounter = 0;
+      for (int i = 0; i < those.length; i++){
+         xCounter += those[i].pos.getX();
+      }
+      for (int i = 0; i < those.length; i++){
+         yCounter += those[i].pos.getY();
+      }
+      return new Vector2D(xCounter, yCounter);
+   }
 
 }
    
