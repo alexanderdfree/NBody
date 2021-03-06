@@ -1,6 +1,7 @@
 public class Universe{
    private Planet[] planets;  //holds all the Planets
    private double radius;     //how big the Universe is
+   private static String background = "starfield.jpg";
   
    public Universe(int nPlanets, double radius){
       /*Constructor. Initialize a new Universe object
@@ -70,15 +71,67 @@ public class Universe{
       u.except(1) -> [p1, p3]
       u.except(2) -> [p1, p2]
       */
-      planet[] planetsExcept[] = new planetsExcept[Planets.length - 1];
+      Planet planetsExcept[] = new Planet[planets.length - 1];
       
       for (int i = 0; i < index; i++){
-         planetsExcept[i] = Planets[i];
+         planetsExcept[i] = planets[i];
       }
       for (int i = index; i < planetsExcept.length; i++){
-         planetsExcept[i] = Planets[i-1];
+         planetsExcept[i] = planets[i-1];
       }
-      return planetsExcept[];
+      return planetsExcept;
    }
-   
+   public void draw(){
+      /*Draw the Universe and all the Planets in it
+      Input:
+         this: a Universe object
+      Output:
+         StdDraw: clears the screen, draws the background,
+         then draws each Planet in the Universe.
+      Ex.
+      Planet p1 = new Planet(1, 0.1, 0.1, 0, 0, "saturn.gif")
+      Planet p2 = new Planet(1, 0.5, 0.5, 0, 0, "jupiter.gif")
+      Planet p3 = new Planet(1, 0.9, 0.9, 0, 0, "venus.gif")
+      Universe u = new Universe(3, 1.0)
+      u.setPlanet(0, p1)
+      u.setPlanet(1, p2)
+      u.setPlanet(2, p3)
+      u.draw() -> draws three planets on a starfield
+      */
+     
+      //clear the screen
+      StdDraw.clear();
+      //draw the background
+      StdDraw.picture(0.0, 0.0, background, 2*this.radius, 2*this.radius);
+      //draw each Planet in this Universe
+      //YOUR CODE GOES HERE
+      for (int i = 0; i < this.planets.length; i++){
+         planets[i].draw();
+      }
+   }
+   public static void main(String[] args){
+      /*Setup a Universe from file*/
+     
+      //get the number of Planets
+      int numPlanets = StdIn.readInt();
+      //get the radius of the Universe
+      double radius = StdIn.readDouble();
+      //setup the Universe
+      Universe u = new Universe(numPlanets, radius);
+      StdDraw.setScale(-radius, radius);
+      //add Planets to the Universe
+      for(int i = 0; i < numPlanets; i++){
+         double pos_x = StdIn.readDouble();
+         double pos_y = StdIn.readDouble();
+         double vel_x = StdIn.readDouble();
+         double vel_y = StdIn.readDouble();
+         double mass = StdIn.readDouble();
+         String image = StdIn.readString();
+         Planet p = new Planet(mass, pos_x, pos_y, vel_x, vel_y, image);
+         u.setPlanet(i, p);
+      }
+      //draw the Universe
+      u.draw();
 
+   } 
+}

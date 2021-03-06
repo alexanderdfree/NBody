@@ -3,10 +3,11 @@ public class Planet{
    private double mass; //the planet's mass
    private Vector2D pos;//the planet's position
    private Vector2D vel;//the planet's velocity
+   private String image;//filename of the planet's image
    
    //static variables
    private static double G = 6.67408E-11; //gravity constant
-   public Planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y){
+   public Planet(double mass, double pos_x, double pos_y, double vel_x, double vel_y, String image){
       /*Constructor. Initialize a new Planet object.
       Input:
          double mass: the planet's mass, kg
@@ -25,6 +26,7 @@ public class Planet{
       this.mass = mass;
       this.pos = new Vector2D(pos_x, pos_y);
       this.vel = new Vector2D(vel_x, vel_y);
+      this.image = image;
    }
    public double getMass(){
       /*Accessor. Return this Planet's mass
@@ -144,6 +146,18 @@ public class Planet{
       double vecY = vecUnit.y * this.gravityMag(that); 
       return new Vector2D(vecX, vecY);
       
+  }
+  public void draw(){
+      /*Draw this Planet in StdDraw
+      Input:
+         this: a Planet object
+      Output:
+         StdDraw: draw this Planet to StdDraw
+      Ex.
+      Planet p = new Planet(100.0, 0.0, 0.0, 0.0, 0.0, "earth.gif")
+      p.draw() -> draws earth.gif at (0.0, 0.0)
+      */
+      StdDraw.picture(this.pos.x, this.pos.y, this.image);
   }
   public Vector2D netForce(Planet[] those){
       /*Calculate the net force acting on this Planet from those
