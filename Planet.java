@@ -159,6 +159,32 @@ public class Planet{
       */
       StdDraw.picture(this.pos.x, this.pos.y, this.image);
   }
+  public void step(Vector2D fNet, double dt){
+      /*Update this Planet's position and velocity given a
+      net force acting over a certain timestep
+      Input:
+         this: a Planet object
+         Vector2D Fnet: the net force acting on this Planet
+         double dt: the timestep over which the net force acts
+      Output: none
+      Side Effects: this.pos and this.vel are updated
+      Ex.
+      Planet p = new Planet(2.0, 0.0, 0.0, 1.0, 0.0)
+      p.toString() -> m=2.0, pos=(0.0, 0.0), vel=(1.0, 0.0)
+      Vector2D fNet = new Vector2D(1.0, 0.0)
+      p.step(fNet, 0.5)
+      p.toString() ->  m=2.0, pos=(0.5, 0.0), vel=(1.25, 0.0)
+      */
+      double xForce = fNet.x;
+      double yForce = fNet.y;
+      double xAcc = xForce * this.mass;
+      double yAcc = yForce * this.mass;
+      this.pos.x += this.vel.x * dt;
+      this.pos.y += this.vel.y * dt;
+      this.vel.x += xAcc * dt;
+      this.vel.y += yAcc * dt;
+      
+  }
   public Vector2D netForce(Planet[] those){
       /*Calculate the net force acting on this Planet from those
       Planets

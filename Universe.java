@@ -109,9 +109,36 @@ public class Universe{
          planets[i].draw();
       }
    }
+   public void step(double dt){
+      /*Step the Planets in this Universe forward by a
+      timestep dt
+      Input:
+         this: a Universe with Planets in it
+         double dt: the timestep to step forward
+      Output: none
+      Side Effects: the Planets in the Universe have all been
+      updated using Newton's Laws
+      */
+      for (int i = 0; i < planets.length; i++){
+         Planet planet = planets[i];
+         Planet[] planetsExcept = this.except(i);
+         Vector2D forces = new Vector2D(0, 0);
+         
+         for (int j = 0; j < planets.length; j++){
+            Vector2D grav = planet.gravityVec(planetsExcept[j]);
+            forces.add(grav);
+            /*forces.x += Planet.gravityVec.x;
+            forces.y += PVec.y;*/
+         }
+         planet.step(forces, dt);
+         
+         
+      }
+   }
    public static void main(String[] args){
       /*Setup a Universe from file*/
-     
+      //get the timestep from args
+      double dt = Double.parseDouble(args[0]);
       //get the number of Planets
       int numPlanets = StdIn.readInt();
       //get the radius of the Universe
@@ -130,8 +157,12 @@ public class Universe{
          Planet p = new Planet(mass, pos_x, pos_y, vel_x, vel_y, image);
          u.setPlanet(i, p);
       }
-      //draw the Universe
-      u.draw();
+      StdDraw.enableDoubleBuffering();
+      while(true){
+         u.draw(); //draw the universe
+         u.step(dt); //step the universe forward
+         StdDraw.show(); //show the universe
+      }
 
    } 
 }
