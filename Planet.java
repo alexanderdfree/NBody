@@ -28,6 +28,18 @@ public class Planet{
       this.vel = new Vector2D(vel_x, vel_y);
       this.image = image;
    }
+   public String toString(){
+      /*Return a String representation of this Planet
+      Input:
+         this: a Planet object
+      Output:
+         return: a String representing this Planet
+      Ex.
+      Planet p = new Planet(100.0, 200.0, 0.0, 0.0, 200.0)
+      p.toString() -> "m=100.0, pos=(200.0, 0.0), vel=(0.0, 200.0)"
+      */
+      return "m=" + this.mass + ", pos=" + this.pos.toString() + ", vel=" + this.vel.toString() + "";
+   }
    public double getMass(){
       /*Accessor. Return this Planet's mass
       Input:
@@ -82,8 +94,8 @@ public class Planet{
       p1.displacement(p2) -> (-200.0, 150.0)
       p2.displacement(p1) -> (200.0, -150.0)
       */
-      double displace1 = this.pos.getX() - that.pos.getX();
-      double displace2 = this.pos.getY() - that.pos.getY();
+      double displace1 = that.pos.getX() - this.pos.getX();
+      double displace2 = that.pos.getY() - this.pos.getY();
       return new Vector2D(displace1, displace2);
   }
   public double distance(Planet that){
@@ -177,8 +189,8 @@ public class Planet{
       */
       double xForce = fNet.x;
       double yForce = fNet.y;
-      double xAcc = xForce * this.mass;
-      double yAcc = yForce * this.mass;
+      double xAcc = xForce / this.mass;
+      double yAcc = yForce / this.mass;
       this.pos.x += this.vel.x * dt;
       this.pos.y += this.vel.y * dt;
       this.vel.x += xAcc * dt;
@@ -207,11 +219,13 @@ public class Planet{
       */
       double xCounter = 0;
       double yCounter = 0;
+      //Vector2D xVec = (0, 0);
+      //Vector2D yVec = (0, 0);
       for (int i = 0; i < those.length; i++){
-         xCounter += those[i].pos.getX();
+         xCounter += this.gravityVec(those[i]).getX();
       }
       for (int i = 0; i < those.length; i++){
-         yCounter += those[i].pos.getY();
+         yCounter += this.gravityVec(those[i]).getY();
       }
       return new Vector2D(xCounter, yCounter);
    }

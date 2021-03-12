@@ -71,14 +71,37 @@ public class Universe{
       u.except(1) -> [p1, p3]
       u.except(2) -> [p1, p2]
       */
-      Planet planetsExcept[] = new Planet[planets.length - 1];
-      
+      Planet[] planetsExcept = new Planet[this.planets.length - 1];
+      //Planet experimental[] = this.planets;
+      /*experimental[index] = null;
+      for (int i = 0; i < this.planets.length; i++){
+         if (experimental[i] != null){
+            if (i > index){
+               planetsExcept[i] = experimental[i-1];
+            }
+            else{
+               planetsExcept[i] = experimental[i];
+            }
+         }
+      }*/
+      /*if (index == 0) {
+         for (int i = 1; i < planetsExcept.length + 1; i++){
+            planetsExcept[i-1] = this.planets[i];
+         }
+         
+      }
+      else{
       for (int i = 0; i < index; i++){
-         planetsExcept[i] = planets[i];
+         planetsExcept[i] = this.planets[i];
+      }*/
+      int counter = 0;
+      for (int i = 0; i < planetsExcept.length+1; i++){
+         if (i != index){
+         planetsExcept[counter] = this.planets[i];
+         counter++;
+         }
       }
-      for (int i = index; i < planetsExcept.length; i++){
-         planetsExcept[i] = planets[i-1];
-      }
+      
       return planetsExcept;
    }
    public void draw(){
@@ -119,20 +142,27 @@ public class Universe{
       Side Effects: the Planets in the Universe have all been
       updated using Newton's Laws
       */
+      
       for (int i = 0; i < planets.length; i++){
          Planet planet = planets[i];
          Planet[] planetsExcept = this.except(i);
          Vector2D forces = new Vector2D(0, 0);
-         
-         for (int j = 0; j < planets.length; j++){
-            Vector2D grav = planet.gravityVec(planetsExcept[j]);
-            forces.add(grav);
+         //planet.step(forces, dt);
+         for (int j = 0; j < planets.length-1; j++){
+            //Vector2D grav = planet.gravityVec(planetsExcept[j]);
+            //forces.add(planet.netForce(planetsExcept));
+            Vector2D force = planet.netForce(planetsExcept);
+            forces.x += force.x;
+            forces.y += force.y;
+            //forces.add(force);
+            //StdOut.println(planet.netForce(planetsExcept));
+            //forces.add(grav); //use netforce
             /*forces.x += Planet.gravityVec.x;
             forces.y += PVec.y;*/
+            //planet.step(force, dt);
          }
+         StdOut.println(forces);
          planet.step(forces, dt);
-         
-         
       }
    }
    public static void main(String[] args){
