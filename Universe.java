@@ -146,9 +146,9 @@ public class Universe{
       for (int i = 0; i < planets.length; i++){
          Planet planet = planets[i];
          Planet[] planetsExcept = this.except(i);
-         Vector2D forces = new Vector2D(0, 0);
+         Vector2D force = planet.netForce(planetsExcept);
          //planet.step(forces, dt);
-         for (int j = 0; j < planets.length-1; j++){
+         /*for (int j = 0; j < planets.length-1; j++){
             //Vector2D grav = planet.gravityVec(planetsExcept[j]);
             //forces.add(planet.netForce(planetsExcept));
             Vector2D force = planet.netForce(planetsExcept);
@@ -160,9 +160,8 @@ public class Universe{
             /*forces.x += Planet.gravityVec.x;
             forces.y += PVec.y;*/
             //planet.step(force, dt);
-         }
-         StdOut.println(forces);
-         planet.step(forces, dt);
+         //}
+         planet.step(force, dt);
       }
    }
    public static void main(String[] args){
